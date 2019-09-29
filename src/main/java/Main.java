@@ -36,43 +36,38 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         String inputValue = scanner.next();
-        List<String> possibleCodes = getPossibleCodes(inputValue);
+        Set<String> possibleCodes = getPossibleCodes(inputValue);
         System.out.print(String.join(",", possibleCodes));
         scanner.close();
     }
 
-    static List<String> getPossibleCodes(String inputValue) throws Exception {
+    static Set<String> getPossibleCodes(String inputValue) throws Exception {
         if (inputValue == null || inputValue.length() == 0)
-            return new LinkedList<>();
+            return new TreeSet<>();
 
-        Set<Node> set = new TreeSet<>(getNodeComparator());
+        List<Node> nodes = new LinkedList<>();
         for (int i = 0; i < inputValue.length(); i++) {
             char c = inputValue.charAt(i);
 
             char[] variants = NEIGHBOURS[Integer.parseInt(String.valueOf(c))];
-            if (set.size() == 0) {
+            if (nodes.size() == 0) {
                 for (char variant : variants) {
                     Node node = new Node(variant, null);
-                    set.add(node);
+                    nodes.add(node);
                 }
             } else {
-                Set<Node> newSet = new TreeSet<>(getNodeComparator());
-                for (Node node : set) {
+                List<Node> newNodes = new LinkedList<>();
+                for (Node node : nodes) {
                     for (char variant : variants) {
                         Node newNode = new Node(variant, node);
-                        newSet.add(newNode);
+                        newNodes.add(newNode);
                     }
                 }
-                set = newSet;
+                nodes = newNodes;
             }
         }
-        List<String> possibleCodes = new LinkedList<>();
-        set.forEach(node -> possibleCodes.add(node.getPath()));
-        return possibleCodes;
+        Set<String> possibleValues = new TreeSet<>();
+        nodes.forEach(node -> possibleValues.add(node.getPath()));
+        return possibleValues;
     }
-
-    private static Comparator<Node> getNodeComparator() {
-        return (o1, o2) -> o1.getPath().compareTo(o2.getPath());
-    }
-
 }

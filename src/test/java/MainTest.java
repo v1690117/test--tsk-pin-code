@@ -5,18 +5,11 @@ import java.util.Random;
 import static org.junit.Assert.assertEquals;
 
 public class MainTest {
-    @Test
-    public void increment() throws Exception {
-//        for (int i = 340908; i < 1_0000_0000; i++) {
-//            System.out.println(i);
-//            Main.getPossibleCodes(String.valueOf(i));
-//        }
-    }
 
     @Test
     public void random() throws Exception {
         for (int i = 1; i <= 8; i++) {
-            for (int j = 0; j < 200; j++) {
+            for (int j = 0; j < 50; j++) {
                 Random rand = new Random();
                 int length = i;
                 String s = "";
